@@ -158,7 +158,10 @@ function Find-KiCadInstallation {
 
     foreach ($uninstallRoot in $uninstallRoots) {
         $entries = Get-ItemProperty (Join-Path $uninstallRoot '*') -ErrorAction SilentlyContinue |
-            Where-Object { $_.DisplayName -match '^KiCad' }
+            Where-Object {
+                    $_.PSObject.Properties.Name-contains'DisplayName'-and
+                    $_.DisplayName-match'^KiCad'
+            }
 
         foreach ($entry in $entries) {
             $candidateRoots = @()
